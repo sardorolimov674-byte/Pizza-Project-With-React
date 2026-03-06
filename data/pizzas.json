@@ -1,0 +1,510 @@
+{
+  "login": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "admin123",
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "role": "admin"
+    }
+  ],
+  "orders": [
+    {
+      "id": "30e0",
+      "customer": {
+        "name": "Sardor",
+        "address": "A.Jomiy 19/1",
+        "phone": "78456"
+      },
+      "items": [
+        {
+          "id": "6",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897382fe407eb533708a14b5d5bc.jpg",
+          "title": "Pepperoni",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 675,
+          "category": 1,
+          "rating": 9,
+          "size": 26,
+          "type": 0,
+          "count": 3
+        },
+        {
+          "id": "9",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee8972cdc61e7f8275452e5196bd22.jpg",
+          "title": "Vegetables and Mushrooms 🌱",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 482,
+          "category": 5,
+          "rating": 7,
+          "size": 40,
+          "type": 0,
+          "count": 3
+        },
+        {
+          "imageUrl": "https://media.dodostatic.net/image/r:760x760/0198bf57bc517218ab93c762f4b0193e.avif",
+          "title": "Pepperoni Fresh with Pepper",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 1357,
+          "category": 0,
+          "rating": 4,
+          "id": "0",
+          "size": 40,
+          "type": 1,
+          "count": 2
+        }
+      ],
+      "total": 6185,
+      "status": "delivered",
+      "createdAt": "2026-01-30T07:23:02.553Z"
+    },
+    {
+      "id": "2168",
+      "customer": {
+        "name": "Sardor",
+        "address": "kjngvdf",
+        "phone": "76485"
+      },
+      "items": [
+        {
+          "id": "8",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897535fa1abeb1c3330d305cde4c.jpg",
+          "title": "Four Seasons",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 395,
+          "category": 5,
+          "rating": 10,
+          "size": 26,
+          "type": 0,
+          "count": 2
+        },
+        {
+          "id": "6",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897382fe407eb533708a14b5d5bc.jpg",
+          "title": "Pepperoni",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 1141,
+          "category": 1,
+          "rating": 9,
+          "size": 40,
+          "type": 0,
+          "count": 3
+        }
+      ],
+      "total": 4213,
+      "status": "cancelled",
+      "createdAt": "2026-02-01T13:23:37.832Z"
+    },
+    {
+      "id": "1fa2",
+      "customer": {
+        "name": "Olim",
+        "address": "tfygvubhkj",
+        "phone": "794865"
+      },
+      "items": [
+        {
+          "id": "6",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897382fe407eb533708a14b5d5bc.jpg",
+          "title": "Pepperoni",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 675,
+          "category": 1,
+          "rating": 9,
+          "size": 26,
+          "type": 0,
+          "count": 4
+        }
+      ],
+      "total": 2700,
+      "status": "delivered",
+      "createdAt": "2026-02-02T09:20:59.951Z"
+    },
+    {
+      "id": "6a05",
+      "customer": {
+        "name": "Sardor",
+        "address": "fygtuyijokp",
+        "phone": "6485321"
+      },
+      "items": [
+        {
+          "id": "6",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897382fe407eb533708a14b5d5bc.jpg",
+          "title": "Pepperoni",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 878,
+          "category": 1,
+          "rating": 9,
+          "size": 30,
+          "type": 0,
+          "count": 3
+        }
+      ],
+      "total": 2634,
+      "status": "delivered",
+      "createdAt": "2026-02-03T09:53:46.216Z"
+    },
+    {
+      "id": "4917",
+      "customer": {
+        "name": "zfxdghjk",
+        "address": "wadsfgh",
+        "phone": "3245678"
+      },
+      "items": [
+        {
+          "id": "6",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897382fe407eb533708a14b5d5bc.jpg",
+          "title": "Pepperoni",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 1141,
+          "category": 1,
+          "rating": 9,
+          "size": 40,
+          "type": 1,
+          "count": 3
+        },
+        {
+          "id": "4",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11eed73c6b01e9ecab89410716435740.jpg",
+          "title": "Cheeseburger Pizza",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 540,
+          "category": 3,
+          "rating": 8,
+          "size": 30,
+          "type": 0,
+          "count": 1
+        }
+      ],
+      "total": 3963,
+      "status": "delivered",
+      "createdAt": "2026-02-04T10:30:06.870Z"
+    },
+    {
+      "id": "2617",
+      "customer": {
+        "name": "sardor",
+        "address": "dcertfvbg",
+        "phone": "636522414"
+      },
+      "items": [
+        {
+          "id": "6",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897382fe407eb533708a14b5d5bc.jpg",
+          "title": "Pepperoni",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 1141,
+          "category": 1,
+          "rating": 9,
+          "size": 40,
+          "type": 0,
+          "count": 2
+        },
+        {
+          "id": "6",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897382fe407eb533708a14b5d5bc.jpg",
+          "title": "Pepperoni",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 878,
+          "category": 1,
+          "rating": 9,
+          "size": 30,
+          "type": 1,
+          "count": 2
+        }
+      ],
+      "total": 4038,
+      "status": "delivered",
+      "createdAt": "2026-02-07T03:50:02.240Z"
+    },
+    {
+      "id": "fd61",
+      "customer": {
+        "name": "zesxdctfv",
+        "address": "de5frt6hyu",
+        "phone": "49685"
+      },
+      "items": [
+        {
+          "id": "6",
+          "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897382fe407eb533708a14b5d5bc.jpg",
+          "title": "Pepperoni",
+          "types": [
+            0,
+            1
+          ],
+          "sizes": [
+            26,
+            30,
+            40
+          ],
+          "price": 1141,
+          "category": 1,
+          "rating": 9,
+          "size": 40,
+          "type": 0,
+          "count": 1
+        }
+      ],
+      "total": 1141,
+      "status": "delivered",
+      "createdAt": "2026-02-07T07:38:17.714Z"
+    }
+  ],
+  "Products": [
+    {
+      "imageUrl": "https://media.dodostatic.net/image/r:760x760/0198bf57bc517218ab93c762f4b0193e.avif",
+      "title": "Pepperoni Fresh with Pepper",
+      "types": [
+        0,
+        1
+      ],
+      "sizes": [
+        26,
+        30,
+        40
+      ],
+      "price": 803,
+      "category": 0,
+      "rating": 4,
+      "id": "0"
+    },
+    {
+      "id": "1",
+      "imageUrl": "https://media.dodostatic.net/image/r:292x292/0198bf40eb1171aabe90b1b3ce07c0c5.jpg",
+      "title": "Cheese",
+      "types": [
+        0
+      ],
+      "sizes": [
+        26,
+        40
+      ],
+      "price": 245,
+      "category": 0,
+      "rating": 6
+    },
+    {
+      "id": "2",
+      "imageUrl": "https://media.dodostatic.net/image/r:292x292/0198bf2cc87a79baa946c53b634615f4.jpg",
+      "title": "Barbecue Chicken",
+      "types": [
+        0
+      ],
+      "sizes": [
+        26,
+        40
+      ],
+      "price": 295,
+      "category": 1,
+      "rating": 4
+    },
+    {
+      "id": "3",
+      "imageUrl": "https://media.dodostatic.net/image/r:584x584/11ee89717a8a877db226c44eaed64208.avif",
+      "title": "Sweet and Sour Chicken",
+      "types": [
+        1
+      ],
+      "sizes": [
+        26,
+        30,
+        40
+      ],
+      "price": 275,
+      "category": 2,
+      "rating": 2
+    },
+    {
+      "id": "4",
+      "imageUrl": "https://media.dodostatic.net/image/r:292x292/11eed73c6b01e9ecab89410716435740.jpg",
+      "title": "Cheeseburger Pizza",
+      "types": [
+        0,
+        1
+      ],
+      "sizes": [
+        26,
+        30,
+        40
+      ],
+      "price": 415,
+      "category": 3,
+      "rating": 8
+    },
+    {
+      "id": "5",
+      "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ef91101cc81669824a4834e2311575.jpg",
+      "title": "Crazy Pepperoni",
+      "types": [
+        0
+      ],
+      "sizes": [
+        30,
+        40
+      ],
+      "price": 580,
+      "category": 2,
+      "rating": 2
+    },
+    {
+      "id": "6",
+      "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897382fe407eb533708a14b5d5bc.jpg",
+      "title": "Pepperoni",
+      "types": [
+        0,
+        1
+      ],
+      "sizes": [
+        26,
+        30,
+        40
+      ],
+      "price": 675,
+      "category": 1,
+      "rating": 9
+    },
+    {
+      "id": "7",
+      "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee89722ed2d2f992155a94fa4d383a.jpg",
+      "title": "Margherita",
+      "types": [
+        0,
+        1
+      ],
+      "sizes": [
+        26,
+        30,
+        40
+      ],
+      "price": 450,
+      "category": 4,
+      "rating": 10
+    },
+    {
+      "id": "8",
+      "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee897535fa1abeb1c3330d305cde4c.jpg",
+      "title": "Four Seasons",
+      "types": [
+        0,
+        1
+      ],
+      "sizes": [
+        26,
+        30,
+        40
+      ],
+      "price": 395,
+      "category": 5,
+      "rating": 10
+    },
+    {
+      "id": "9",
+      "imageUrl": "https://media.dodostatic.net/image/r:292x292/11ee8972cdc61e7f8275452e5196bd22.jpg",
+      "title": "Vegetables and Mushrooms 🌱",
+      "types": [
+        0,
+        1
+      ],
+      "sizes": [
+        26,
+        30,
+        40
+      ],
+      "price": 285,
+      "category": 5,
+      "rating": 7
+    }
+  ]
+}
