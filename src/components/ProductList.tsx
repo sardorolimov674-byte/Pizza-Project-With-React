@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/Product";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/firebase.config";
 
 type Props = {
   category: number;
@@ -46,8 +47,12 @@ const ProductList = ({ category, sort }: Props) => {
   };
 
   const getProduct = async () => {
-    const res = await axios.get("http://localhost:8080/Products");
-    const data: Product[] = res.data;
+    const snap = await getDocs(collection(db, "product"));
+
+    const data: Product[] = snap.docs.map(doc => ({
+      id: doc.id,
+      ...(doc.data() as Omit<Product, "id">),
+    }));
 
     setProducts(data);
 
@@ -65,6 +70,7 @@ const ProductList = ({ category, sort }: Props) => {
 
   useEffect(() => {
     getProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTypeClick = (productId: string, type: number) => {
@@ -104,13 +110,13 @@ const ProductList = ({ category, sort }: Props) => {
                 <p className="text-[20px] font-bold mt-11 text-gray-900">{item.title}</p>
                 <div className="bg-gray-100 rounded-lg p-1 mt-[22px] flex flex-col gap-1 max-w-[280px] mx-auto">
                   <div className="flex">
-                    {item.types.map((type) => (
+                  {Array.isArray(item.types) && item.types.map((type) => (
                       <button key={type} onClick={() => handleTypeClick(item.id, type)} style={{ borderRadius: "10px", fontSize: "14px" }} className={`flex-1 py-1.5 font-medium transition ${selectedTypes[item.id] === type ? "bg-white text-gray-900 shadow-sm" : "bg-transparent text-gray-500"}`}>{typeNames[type]}</button>
                     ))}
                   </div>
 
                   <div className="flex">
-                    {item.sizes.map((size) => (
+                  {Array.isArray(item.sizes) && item.sizes.map((size) => (
                       <button key={size} onClick={() => handleSizeClick(item.id, size)} style={{ borderRadius: "10px", fontSize: "14px" }} className={`flex-1 py-1.5 rounded-md font-medium transition ${selectedSizes[item.id] === size ? "bg-white text-gray-900 shadow-sm" : "bg-transparent text-gray-500"}`}>{size} cm</button>
                     ))}
                   </div>

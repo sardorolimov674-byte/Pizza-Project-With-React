@@ -1,29 +1,27 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
-
-type Order = {
-  id: string
-  customer: {
-    name: string
-    address: string
-    phone: string
-  }
-  items: {
-    title: string
-    size: number
-    count: number
-  }[]
-  total: number
-  status: "delivered"
-}
+import { collection, getDocs } from "firebase/firestore"
+import { db } from "../../firebase/firebase.config"
+import type { Order } from "../../types/Order"
 
 export default function Delivery() {
   const [orders, setOrders] = useState<Order[]>([])
 
+  const getDeliveredOrders = async () => {
+    const snap = await getDocs(collection(db, "orders"))
+
+    const data: Order[] = snap.docs
+      .map(doc => ({
+        id: doc.id,
+        ...(doc.data() as Omit<Order, "id">),
+      }))
+      .filter(o => o.status === "delivered")
+
+    setOrders(data)
+  }
+
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/orders?status=delivered")
-      .then(res => setOrders(res.data))
+    getDeliveredOrders()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -48,9 +46,14 @@ export default function Delivery() {
               ))}
             </div>
 
-            <div className="w-[120px] font-semibold text-lg">Total: <br /> {order.total} $</div>
+            <div className="w-[120px] font-semibold text-lg">
+              Total: <br /> {order.total} $
+            </div>
+
             <div className="w-[120px]">
-              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">delivered</span>
+              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                delivered
+              </span>
             </div>
           </div>
         ))}

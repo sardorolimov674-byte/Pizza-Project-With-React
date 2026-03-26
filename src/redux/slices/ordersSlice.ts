@@ -1,11 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { api } from "../../api/api"
+import { collection, getDocs } from "firebase/firestore"
+import { db } from "../../firebase/firebase.config"
 
 export const fetchOrders = createAsyncThunk(
   "orders/fetch",
   async () => {
-    const res = await api.get("/orders")
-    return res.data
+    const snapshot = await getDocs(collection(db, "orders"))
+
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }))
   }
 )
 

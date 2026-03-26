@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
 import Rodal from "rodal"
 import "rodal/lib/rodal.css"
 import type { Product } from "../../types/Product"
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore"
+import { db } from "../../firebase/firebase.config"
 
 const typeNames = ["thin", "traditional"]
-
-const typeOptions = [
-  { id: 0, label: "Thin" },
-  { id: 1, label: "Traditional" },
-]
-
-const sizeOptions = [26, 30, 40]
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([])
@@ -19,7 +13,6 @@ export default function Products() {
   const [editId, setEditId] = useState<string | null>(null)
   const [search, setSearch] = useState("")
 
-  // DELETE STATE
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
@@ -34,14 +27,20 @@ export default function Products() {
   })
 
   const getProducts = async () => {
-    const res = await axios.get("http://localhost:8080/Products")
-    setProducts(res.data)
+    const snap = await getDocs(collection(db, "product"))
+
+    const data: Product[] = snap.docs.map(d => ({
+      id: d.id,
+      ...(d.data() as Omit<Product, "id">),
+    }))
+
+    setProducts(data)
   }
 
   useEffect(() => {
     getProducts()
   }, [])
-
+  
   const toggleValue = (key: "types" | "sizes", value: number) => {
     setForm(prev => ({
       ...prev,
@@ -67,59 +66,42 @@ export default function Products() {
 
   const openEdit = (p: Product) => {
     setEditId(p.id)
-    setForm({
-      imageUrl: p.imageUrl,
-      title: p.title,
-      types: p.types,
-      sizes: p.sizes,
-      price: p.price,
-      category: p.category,
-      rating: p.rating,
-    })
+    setForm(p)
     setOpen(true)
   }
 
+  // 🔥 SAVE
   const saveProduct = async () => {
-    if (
-      !form.imageUrl ||
-      !form.title ||
-      !form.types.length ||
-      !form.sizes.length ||
-      !form.price
-    ) {
-      alert("Please fill in all fields!")
-      return
-    }
+    if (!form.title) return alert("Fill all fields")
 
     if (editId) {
-      await axios.put(`http://localhost:8080/Products/${editId}`, form)
+      await updateDoc(doc(db, "product", editId), form)
     } else {
-      await axios.post("http://localhost:8080/Products", form)
+      await addDoc(collection(db, "product"), form)
     }
 
     setOpen(false)
-    setEditId(null)
     getProducts()
   }
 
-  // DELETE FLOW
+  // 🔥 DELETE
+  const confirmDelete = async () => {
+    if (!deleteId) return
+    await deleteDoc(doc(db, "product", deleteId))
+    setDeleteOpen(false)
+    getProducts()
+  }
+
   const openDelete = (id: string) => {
     setDeleteId(id)
     setDeleteOpen(true)
-  }
-
-  const confirmDelete = async () => {
-    if (!deleteId) return
-    await axios.delete(`http://localhost:8080/Products/${deleteId}`)
-    setDeleteOpen(false)
-    setDeleteId(null)
-    getProducts()
   }
 
   return (
     <div className="mt-[30px] ms-[70px]">
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-xl font-bold">Products</h2>
+
         <div className="flex gap-3">
           <input
             type="text"
@@ -128,6 +110,7 @@ export default function Products() {
             onChange={(e) => setSearch(e.target.value)}
             className="mt-1 h-[40px] w-[270px] px-4 rounded-lg border text-sm outline-none focus:border-orange-500"
           />
+
           <button
             onClick={openAdd}
             className="px-4 h-[45px] bg-orange-500 text-white rounded-pill font-semibold hover:bg-orange-600 transition"
@@ -141,24 +124,30 @@ export default function Products() {
         {products
           .filter(p => p.title.toLowerCase().includes(search.toLowerCase()))
           .map(item => (
-            <div key={item.id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-3 text-center">
+            <div key={item.id} className="bg-white rounded-xl shadow-sm p-3 text-center">
               <img src={item.imageUrl} className="w-full h-[110px] object-contain mb-2" />
+
               <p className="font-semibold text-sm">{item.title}</p>
+
               <p className="text-xs text-gray-400 mt-1">
-                {item.types.map(t => typeNames[t]).join(", ")} · {item.sizes.join(", ")} cm
+                {Array.isArray(item.types) ? item.types.map(t => typeNames[t]).join(", ") : ""}
+                {" · "}
+                {Array.isArray(item.sizes) ? item.sizes.join(", ") : ""} cm
               </p>
+
               <p className="font-semibold text-sm mt-2">{item.price} $</p>
 
               <div className="flex justify-center gap-2 mt-2">
                 <button
                   onClick={() => openEdit(item)}
-                  className="border-1 w-[70px] h-[45px] rounded bg-blue-500 text-xs text-white"
+                  className="w-[70px] h-[45px] bg-blue-500 text-white text-xs"
                 >
                   Edit
                 </button>
+
                 <button
                   onClick={() => openDelete(item.id)}
-                  className="border-1 w-[80px] h-[45px] rounded text-xs bg-red-500 text-white"
+                  className="w-[80px] h-[45px] bg-red-500 text-white text-xs"
                 >
                   Delete
                 </button>
@@ -167,59 +156,36 @@ export default function Products() {
           ))}
       </div>
 
-      {/* ADD / EDIT MODAL */}
-      <Rodal
-        visible={open}
-        onClose={() => setOpen(false)}
-        width={450}
-        height={620}
-        customStyles={{ borderRadius: "16px", padding: "24px" }}
-      >
+      <Rodal visible={open} onClose={() => setOpen(false)} width={450} height={620}>
         <h3 className="text-lg font-bold text-center mb-4">
           {editId ? "Edit Product" : "Add Product"}
         </h3>
 
-        <div className="flex flex-col gap-3 text-sm">
-          <input className="border px-3 h-[38px] rounded" placeholder="Image URL" value={form.imageUrl} onChange={e => setForm({ ...form, imageUrl: e.target.value })} />
-          <input className="border px-3 h-[38px] rounded" placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
+        <div className="flex flex-col gap-3">
+          <input
+            placeholder="Image URL"
+            value={form.imageUrl}
+            onChange={e => setForm({ ...form, imageUrl: e.target.value })}
+          />
 
-          <div>
-            <p className="font-medium mb-1">Types</p>
-            {typeOptions.map(t => (
-              <label key={t.id} className="flex gap-2 ms-2">
-                <input type="checkbox" checked={form.types.includes(t.id)} onChange={() => toggleValue("types", t.id)} />
-                {t.label}
-              </label>
-            ))}
-          </div>
+          <input
+            placeholder="Title"
+            value={form.title}
+            onChange={e => setForm({ ...form, title: e.target.value })}
+          />
 
-          <div>
-            <p className="font-medium mb-1">Sizes</p>
-            {sizeOptions.map(s => (
-              <label key={s} className="flex gap-2 ms-2">
-                <input type="checkbox" checked={form.sizes.includes(s)} onChange={() => toggleValue("sizes", s)} />
-                {s} cm
-              </label>
-            ))}
-          </div>
-
-          <input type="number" className="border px-3 h-[38px] rounded" placeholder="Price" value={form.price} onChange={e => setForm({ ...form, price: +e.target.value })} />
-
-          <button onClick={saveProduct} className="mt-3 h-[40px] bg-orange-500 text-white rounded-full font-semibold hover:bg-orange-600 transition">
-            {editId ? "Save Changes" : "Add Product"}
+          <button
+            onClick={saveProduct}
+            className="bg-orange-500 text-white h-[40px]"
+          >
+            Save
           </button>
         </div>
       </Rodal>
 
-      <Rodal visible={deleteOpen} onClose={() => setDeleteOpen(false)} width={400} height={250} customStyles={{ borderRadius: "16px", padding: "30px",  }}>
-        <h3 className="text-sm font-bold text-center mt-4">
-          Do you want to delete this product?
-        </h3>
-
-        <div className="flex justify-center gap-4 mt-3">
-          <button onClick={confirmDelete} className="px-6 h-[45px] bg-red-500 text-white rounded-pill font-semibold hover:bg-red-600 transition">Yes</button>
-          <button onClick={() => setDeleteOpen(false)} className="px-6 h-[45px] bg-gray-200 rounded-pill font-semibold hover:bg-gray-300 transition">No</button>
-        </div>
+      <Rodal visible={deleteOpen} onClose={() => setDeleteOpen(false)} width={400} height={250}>
+        <h3 className="text-center">Delete?</h3>
+        <button onClick={confirmDelete}>Yes</button>
       </Rodal>
     </div>
   )

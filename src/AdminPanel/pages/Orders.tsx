@@ -1,38 +1,29 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
-
-type OrderStatus = "delivered" | "cancelled" | "pending"
-
-type Order = {
-  id: string
-  customer: {
-    name: string
-    address: string
-    phone: string
-  }
-  items: {
-    title: string
-    size: number
-    count: number
-  }[]
-  total: number
-  status: OrderStatus
-}
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore"
+import { db } from "../../firebase/firebase.config"
+import type { Order } from "../../types/Order"
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[]>([])
 
   const getOrders = async () => {
-    const res = await axios.get("http://localhost:8080/orders")
-    setOrders(res.data)
+    const snap = await getDocs(collection(db, "orders"))
+
+    const data: Order[] = snap.docs.map(doc => ({
+      id: doc.id,
+      ...(doc.data() as Omit<Order, "id">),
+    }))
+
+    setOrders(data)
   }
 
   useEffect(() => {
     getOrders()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const setStatus = async (id: string, status: "delivered" | "cancelled") => {
-    await axios.patch(`http://localhost:8080/orders/${id}`, { status })
+  const setStatus = async (id: string, status: Order["status"]) => {
+    await updateDoc(doc(db, "orders", id), { status })
     getOrders()
   }
 
@@ -60,18 +51,32 @@ export default function Orders() {
                 ))}
               </div>
 
-              <div className="w-[120px] font-semibold text-lg">Total: <br /> {order.total} $</div>
+              <div className="w-[120px] font-semibold text-lg">
+                Total: <br /> {order.total} $
+              </div>
 
               {order.status === "cancelled" && (
                 <div className="w-[120px]">
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">cancelled</span>
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                    cancelled
+                  </span>
                 </div>
               )}
 
               {order.status !== "cancelled" && (
                 <div className="flex gap-2">
-                  <button onClick={() => setStatus(order.id, "delivered")} className="w-[150px] h-[50px] rounded bg-green-500 text-white rounded-full">Mark Delivered</button>
-                  <button onClick={() => setStatus(order.id, "cancelled")} className="w-[100px] h-[50px] rounded bg-red-500 text-white rounded-full">Cancelled</button>
+                  <button
+                    onClick={() => setStatus(order.id, "delivered")}
+                    className="w-[150px] h-[50px] rounded bg-green-500 text-white rounded-full"
+                  >
+                    Mark Delivered
+                  </button>
+                  <button
+                    onClick={() => setStatus(order.id, "cancelled")}
+                    className="w-[100px] h-[50px] rounded bg-red-500 text-white rounded-full"
+                  >
+                    Cancelled
+                  </button>
                 </div>
               )}
             </div>

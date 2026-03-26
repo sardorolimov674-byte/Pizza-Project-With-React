@@ -7,8 +7,10 @@ import img2 from "../assets/cartImg.png"
 import { IoIosArrowBack } from "react-icons/io"
 import "rodal/lib/rodal.css"
 import Rodal from "rodal"
-import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { addDoc, collection } from "firebase/firestore"
+import { db } from "../firebase/firebase.config"
+
 
 type CartItem = Product & {
   count: number
@@ -42,7 +44,7 @@ const Cart = () => {
       createdAt: new Date().toISOString(),
     }
 
-    await axios.post("http://localhost:8080/orders", order)
+    await addDoc(collection(db, "orders"), order)
 
     localStorage.removeItem("cart")
     setItems([])
